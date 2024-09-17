@@ -1,9 +1,8 @@
-fastapi
-uvicorn
-pytesseract
-pdf2image
-python-docx
-flask
-flask-cors
-python-docx
-pymupdf
+Flask==2.1.2
+Flask-Cors==3.0.10
+PyMuPDF==1.22.3
+python-docx==0.8.11
+easyocr==1.6.2
+torch==2.4.1+cu118
+torchvision==0.15.2+cu118
+
