@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pytesseract
+pdf2image
+python-docx
+flask
+flask-cors
+python-docx
+pymupdf
