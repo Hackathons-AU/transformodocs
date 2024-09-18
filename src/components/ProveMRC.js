@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 import { Container, Typography, Button, TextField, Snackbar, Alert } from '@mui/material';
+import axios from 'axios';
 
 const ProveMRC = () => {
     const [code, setCode] = useState('');
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
 
-    const handleCheck = () => {
-        // Logic to check if the code is machine-readable
+    const handleCheck = async () => {
         if (code.trim()) {
-            if (isMachineReadable(code)) {
-                setResult('Yes, it is machine-readable code');
+            try {
+                const response = await axios.post('http://localhost:5000/check-mrc', {
+                    content: code
+                });
+
+                setResult(response.data.isReadable ? 'Yes, it is machine-readable code' : 'No, it is not machine-readable');
                 setError(null);
-            } else {
-                setResult('No, it is not machine-readable');
-                setError(null);
+            } catch (err) {
+                setError('Error checking machine readability. Please try again.');
+                setResult(null);
             }
         } else {
             setError('Please enter some code to check.');
             setResult(null);
         }
-    };
-
-    const isMachineReadable = (input) => {
-        // Implement your logic to check machine-readability
-        return input.includes('MRC'); // Dummy logic for demo purposes
     };
 
     return (
@@ -56,11 +55,11 @@ const ProveMRC = () => {
             )}
             {error && (
                 <Snackbar
-                    open={true}
+                    open={Boolean(error)}
                     autoHideDuration={6000}
                     onClose={() => setError(null)}
                 >
-                    <Alert severity="error">
+                    <Alert severity="error" onClose={() => setError(null)}>
                         {error}
                     </Alert>
                 </Snackbar>
@@ -70,3 +69,4 @@ const ProveMRC = () => {
 };
 
 export default ProveMRC;
+
